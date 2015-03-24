@@ -100,13 +100,14 @@
         }
 
         var self = this;
+        var parameters = Array.prototype.slice.call(arguments, 1);
 
         this._eventListeners.forEach(function (listener) {
             if (listener.eventName !== eventName) {
                 return;
             }
 
-            listener.eventHandler.apply(listener.context, Array.prototype.slice.call(arguments, 1));
+            listener.eventHandler.apply(listener.context, parameters);
 
             if (listener.once) {
                 self.off(eventName, listener.eventHandler);
