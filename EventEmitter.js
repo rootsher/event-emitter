@@ -94,7 +94,7 @@
      * 
      * @param {string} eventName 
      */
-    EventEmitter.emit = function emit(eventName) {
+    EventEmitter.emit = function (eventName) {
         if ((typeof eventName !== 'string') || (eventName === '')) {
             throw new Error('EventEmitter#emit: `eventName` is not a string or is empty.');
         }
