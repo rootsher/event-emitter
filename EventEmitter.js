@@ -26,8 +26,11 @@
             throw new Error('EventEmitter#on: `eventHandler` is not a function.');
         }
 
-        this._eventListeners.push({
-            eventName: eventName,
+        if (!this._eventListeners[eventName]) {
+            this._eventListeners[eventName] = [];
+        }
+
+        this._eventListeners[eventName].push({
             eventHandler: eventHandler,
             context: (context || this)
         });
@@ -40,30 +43,9 @@
      */
     EventEmitter.off = function (eventName, eventHandler) {
         var self = this;
-        var listenersToRemove = [];
 
-        this._eventListeners.forEach(function (listener, index) {
-            if (!eventName) {
-                listenersToRemove.push(index);
-                return;
-            }
-
-            if (listener.eventName !== eventName) {
-                return;
-            }
-
-            if (typeof eventHandler !== 'function') {
-                listenersToRemove.push(index);
-                return;
-            }
-
-            if (listener.eventHandler === eventHandler) {
-                listenersToRemove.push(index);
-            }
-        });
-
-        this._eventListeners = this._eventListeners.filter(function (listener, index) {
-            return (listenersToRemove.indexOf(index) > -1);
+        this._eventListeners[eventName] = (this._eventListeners[eventName] || []).filter(function (listener, index) {
+            return (eventHandler !== listener.eventHandler);
         });
     };
 
@@ -99,20 +81,22 @@
             throw new Error('EventEmitter#emit: `eventName` is not a string or is empty.');
         }
 
-        var self = this;
         var parameters = Array.prototype.slice.call(arguments, 1);
+        var remainingListeners = [];
 
-        this._eventListeners.forEach(function (listener) {
-            if (listener.eventName !== eventName) {
-                return;
-            }
-
+        (this._eventListeners[eventName] || []).forEach(function (listener) {
             listener.eventHandler.apply(listener.context, parameters);
 
-            if (listener.once) {
-                self.off(eventName, listener.eventHandler);
+            if (!listener.once) {
+                remainingListeners.push(listener);
             }
         });
+
+        this._eventListeners[eventName] = remainingListeners;
+
+        if (this._eventListeners[eventName].length === 0) {
+            delete this._eventListeners[eventName];
+        }
     };
 
     return (root.EventEmitter = EventEmitter);
