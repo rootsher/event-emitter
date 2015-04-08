@@ -41,3 +41,9 @@ emitter.once('connect', eventHandler);
 ```js
 emitter.off('connect');
 ```
+
+#### emitter.setMaxListeners(number)
+
+```js
+emitter.setMaxListeners(15);
+```
