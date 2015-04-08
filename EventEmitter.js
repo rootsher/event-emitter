@@ -9,7 +9,7 @@
     /**
      * 
      */
-    EventEmitter._eventListeners = [];
+    EventEmitter._eventListeners = {};
 
     /**
      * 
@@ -42,11 +42,13 @@
      * @param {function} [eventHandler] 
      */
     EventEmitter.off = function (eventName, eventHandler) {
-        var self = this;
-
-        this._eventListeners[eventName] = (this._eventListeners[eventName] || []).filter(function (listener, index) {
+        this._eventListeners[eventName] = (this._eventListeners[eventName] || []).filter(function (listener) {
             return (eventHandler !== listener.eventHandler);
         });
+
+        if (this._eventListeners[eventName].length === 0) {
+            delete this._eventListeners[eventName];
+        }
     };
 
     /**
@@ -64,8 +66,11 @@
             throw new Error('EventEmitter#once: `eventHandler` is not a function.');
         }
 
-        this._eventListeners.push({
-            eventName: eventName,
+        if (!this._eventListeners[eventName]) {
+            this._eventListeners[eventName] = [];
+        }
+
+        this._eventListeners[eventName].push({
             eventHandler: eventHandler,
             context: (context || this),
             once: true
@@ -79,6 +84,10 @@
     EventEmitter.emit = function (eventName) {
         if ((typeof eventName !== 'string') || (eventName === '')) {
             throw new Error('EventEmitter#emit: `eventName` is not a string or is empty.');
+        }
+
+        if (eventName === 'error') && (!this._eventListeners[eventName] || (this._eventListeners[eventName].length === 0)) {
+            throw new Error('EventEmitter#emit: Listener for handling errors does not exist.');
         }
 
         var parameters = Array.prototype.slice.call(arguments, 1);
