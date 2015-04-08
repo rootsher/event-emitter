@@ -25,7 +25,8 @@ emitter.on('connect', eventHandler);
 
 ```js
 emitter.emit('connect', {
-    host: '127.0.0.1'
+    host: '127.0.0.1',
+    port: 8080
 });
 ```
 
