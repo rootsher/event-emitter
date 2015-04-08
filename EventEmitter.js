@@ -105,7 +105,7 @@
             throw new Error('EventEmitter#emit: `eventName` is not a string or is empty.');
         }
 
-        if (eventName === 'error') && (!this._eventListeners[eventName] || (this._eventListeners[eventName].length === 0)) {
+        if ((eventName === 'error') && (!this._eventListeners[eventName] || (this._eventListeners[eventName].length === 0))) {
             throw (arguments[1] || new Error('EventEmitter#emit: Listener for handling errors does not exist.'));
         }
 
