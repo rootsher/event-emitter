@@ -87,6 +87,10 @@
         }
 
         if (eventName === 'error') && (!this._eventListeners[eventName] || (this._eventListeners[eventName].length === 0)) {
+            if (arguments[1] && (arguments[1] instanceof Error)) {
+                throw arguments[1];
+            }
+
             throw new Error('EventEmitter#emit: Listener for handling errors does not exist.');
         }
 
