@@ -13,6 +13,11 @@
 
     /**
      * 
+     */
+    EventEmitter._maxListeners = 10;
+
+    /**
+     * 
      * @param {string} eventName 
      * @param {function} eventHandler 
      * @param {Object} [context] 
@@ -34,6 +39,10 @@
             eventHandler: eventHandler,
             context: (context || this)
         });
+
+        if (this._eventListeners[eventName].length === this._maxListeners) {
+            console.warn('More than %d listeners have been added to "%s" event.', this._maxListeners, eventName);
+        }
     };
 
     /**
@@ -116,6 +125,20 @@
         if (this._eventListeners[eventName].length === 0) {
             delete this._eventListeners[eventName];
         }
+    };
+
+    /**
+     * 
+     * @param {number} number 
+     */
+    EventEmitter.setMaxListeners = function (number) {
+        number = Number(number);
+
+        if ((typeof number !== 'number') || (isNaN(number))) {
+            throw new Error('EventEmitter#setMaxListeners: `number` is not a number.');
+        }
+
+        this._maxListeners = (parseInt(number) || Infinity);
     };
 
     return (root.EventEmitter = EventEmitter);
