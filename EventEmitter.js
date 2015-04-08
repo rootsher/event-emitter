@@ -134,7 +134,7 @@
     EventEmitter.setMaxListeners = function (number) {
         number = Number(number);
 
-        if ((typeof number !== 'number') || (isNaN(number))) {
+        if (isNaN(number)) {
             throw new Error('EventEmitter#setMaxListeners: `number` is not a number.');
         }
 
