@@ -47,3 +47,10 @@ emitter.off('connect');
 ```js
 emitter.setMaxListeners(15);
 ```
+
+
+#### emitter.getListeners(eventName)
+
+```js
+emitter.getListeners('connect');
+```
