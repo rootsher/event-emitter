@@ -42,6 +42,16 @@
      * @param {function} [eventHandler] 
      */
     EventEmitter.off = function (eventName, eventHandler) {
+        if (!eventName) {
+            this._eventListeners = {};
+            return;
+        }
+
+        if (!eventHandler) {
+            delete this._eventListeners[eventName];
+            return;
+        }
+
         this._eventListeners[eventName] = (this._eventListeners[eventName] || []).filter(function (listener) {
             return (eventHandler !== listener.eventHandler);
         });
