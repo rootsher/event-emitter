@@ -141,5 +141,17 @@
         this._maxListeners = (parseInt(number) || Infinity);
     };
 
+    /**
+     * 
+     * @param {string} eventName 
+     */
+    EventEmitter.getListeners = function (eventName) {
+        if ((typeof eventName !== 'string') || (eventName === '')) {
+            throw new Error('EventEmitter#getListeners: `eventName` is not a string or is empty.');
+        }
+
+        return (this._eventListeners[eventName] || []);
+    };
+
     return (root.EventEmitter = EventEmitter);
 }(this));
