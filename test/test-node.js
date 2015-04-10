@@ -31,8 +31,8 @@ databaseAdapter.once('installDatabase', function () {
 
 databaseAdapter.on('run', function (options) {
 	console.log('Database running.');
-	console.log('Host:', this._host);
-	console.log('Port:', this._port);
+	console.log('Host:', options.host);
+	console.log('Port:', options.port);
 });
 
 
