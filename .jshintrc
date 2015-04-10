@@ -1,0 +1,10 @@
+{
+	"globals": {},
+	"maxerr": 50,
+	"curly": true,
+	"eqeqeq": true,
+	"indent": 4,
+	"newcap": true,
+	"browser": true,
+	"node": true
+}
