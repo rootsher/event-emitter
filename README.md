@@ -16,6 +16,7 @@ var eventHandler = function (content) {
 ```
 
 #### emitter.on(eventName, eventHandler, [context])
+##### aliases: emitter.addListener, emitter.addEventListener
 
 ```js
 emitter.on('connect', eventHandler);
@@ -37,10 +38,16 @@ emitter.once('connect', eventHandler);
 ```
 
 #### emitter.off([eventName], [eventHandler])
+##### aliases: emitter.removeListener, emitter.removeEventListener
 
 ```js
 emitter.off('connect');
 ```
+
+#### emitter.removeAllListeners([eventName])
+
+```js
+emitter.removeAllListeners(eventName);
 
 #### emitter.setMaxListeners(number)
 
