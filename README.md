@@ -57,6 +57,7 @@ emitter.setMaxListeners(15);
 ```
 
 #### emitter.getListeners(eventName)
+##### alias: emitter.listeners
 
 ```js
 emitter.getListeners('connect');
