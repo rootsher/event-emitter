@@ -48,6 +48,7 @@ emitter.off('connect');
 
 ```js
 emitter.removeAllListeners(eventName);
+```
 
 #### emitter.setMaxListeners(number)
 
